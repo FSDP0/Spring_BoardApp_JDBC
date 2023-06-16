@@ -1,0 +1,11 @@
+### Tomcat server listening port
+server:
+    port: 8000
+
+### Spring boot logging level
+# logging:
+#     level:
+#         org:
+#             springframework: DEBUG
+
+###
