@@ -1,4 +1,7 @@
 # Spring Boot Board Application with JDBC
+### Spring Version : Spring
+### Database : MariaDB
+
 
 ## Dependency Packages
 - Spring Boot Web
