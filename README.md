@@ -1,6 +1,7 @@
 # Spring Boot Board Application with JDBC
-### Spring Version : Spring
-### Database : MariaDB
+### - Spring Version : 3.1.0
+### - JDK Version : 17
+### - Database : MariaDB
 
 
 ## Dependency Packages
