@@ -6,15 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 @Configuration
 // Enabled Transaction
 @EnableTransactionManagement
-public class JdbcConfig {
-    private final String DATABASE_DRIVER_CLASS_NAME = "org.mariadb.jdbc.Driver";
-    private final String DATABASE_URL = "jdbc:mariadb://localhost:3306/board";
-    private final String DATABASE_USER_NAME = "root";
-    private final String DATABASE_USER_PASSWORD = "123456";
-
+public class JdbcConfig extends JdbcDataSource {
     @Bean
     DataSource mariadbDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -26,3 +22,4 @@ public class JdbcConfig {
         return dataSource;
     }
 }
+

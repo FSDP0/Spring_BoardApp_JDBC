@@ -9,3 +9,5 @@ server:
 #             springframework: DEBUG
 
 ### Spring DataSource
+IP:
+    DATABASE_IP: localhost

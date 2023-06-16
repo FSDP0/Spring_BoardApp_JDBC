@@ -1,28 +1,16 @@
 package com.boardapp.boardapi.board.repository;
 
-import java.util.Collections;
 import java.util.List;
-import javax.sql.DataSource;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
 import com.boardapp.boardapi.board.entity.Board;
 
-@Repository
-public class BoardRepository {
-    // Basic SQL Query
-    public static final String SELECT_ALL = "SELECT * FROM board";
+public interface BoardRepository {
+    public List<Board> findAllBoards();
 
-    NamedParameterJdbcTemplate jdbc;
+    public Board findBoardById(Long id);
 
-    private RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+    public void saveBoard(Board board);
 
-    public BoardRepository(DataSource dataSource) {
-        this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-    }
+    public void editBoard(Long id, Board board);
 
-    public List<Board> findAllBoard() {
-        return jdbc.query(SELECT_ALL, Collections.emptyMap(), rowMapper);
-    }
+    public void deleteBoard(Long id);
 }
