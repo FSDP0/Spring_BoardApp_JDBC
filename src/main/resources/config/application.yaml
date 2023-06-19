@@ -13,8 +13,3 @@ spring:
             mode: always
             # .sql file (schema) location
             schema-locations: classpath:schema-mariadb.sql
-    # datasource:
-    #     driver-class-name: org.mariadb.jdbc.Driver
-    #     url: jdbc:mariadbc://localhost:3306/board
-    #     username: root
-    #     password: 123456

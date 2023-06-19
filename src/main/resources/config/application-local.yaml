@@ -3,7 +3,13 @@ server:
     port: 8000
 
 ### Spring boot logging level
-logging:
-    level:
-        org:
-            springframework: DEBUG
+# logging:
+#     level:
+#         org:
+#             springframework: DEBUG
+
+db:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306
+    username: root
+    password: 123456

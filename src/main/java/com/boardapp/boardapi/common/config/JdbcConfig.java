@@ -1,9 +1,7 @@
 package com.boardapp.boardapi.common.config;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -14,7 +12,19 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 // Enabled Transaction
 @EnableTransactionManagement
-public class JdbcConfig extends JdbcDataSource {
+public class JdbcConfig {
+    @Value("${db.driver-class-name}")
+    private String DATABASE_DRIVER_CLASS_NAME;
+
+    @Value("${db.url}")
+    private String DATABASE_URL;
+
+    @Value("${db.username}")
+    private String DATABASE_USER_NAME;
+
+    @Value("${db.password}")
+    private String DATABASE_USER_PASSWORD;
+
     @Bean
     DataSource mariadbDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
