@@ -47,9 +47,22 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
+		<resources>
+			<!-- YAML files for profiling-->
+			<resource>
+				<directory>src/main/resources/config</directory>
+				<filtering>true</filtering>
+			</resource>
+			<!-- SQL Files -->
+			<resource>
+				<directory>src/main/resources/database</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

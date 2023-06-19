@@ -27,6 +27,7 @@ public class BoardService {
 
         List<BoardDto> boardDtoList = new ArrayList<BoardDto>();
 
+        // Convert Entities to DTO Model
         for (Board board : boardList) {
             BoardDto boardDto = BoardDto.builder().num(board.getBoardId())
                     .title(board.getBoardTitle()).writeName(board.getBoardAuthor())
@@ -46,9 +47,11 @@ public class BoardService {
             return null;
         }
 
-        BoardDto boardDto = BoardDto.builder().num(board.getBoardId()).title(board.getBoardTitle())
-                .writeName(board.getBoardAuthor()).contents(board.getBoardContent())
-                .writeDate(board.getCreatedDate()).modifyDate(board.getModifiedDate()).build();
+        // Convert Entity to DTO Model
+        BoardDto boardDto = BoardDto.builder().num(board.getBoardId())
+                .title(board.getBoardTitle()).writeName(board.getBoardAuthor())
+                .contents(board.getBoardContent()).writeDate(board.getCreatedDate())
+                .modifyDate(board.getModifiedDate()).build();
 
         return boardDto;
     }
@@ -58,6 +61,7 @@ public class BoardService {
     }
 
     public void modifyBoard(Long id, BoardDto boardDto) {
+        // Convert DTO Model to Entity
         Board board = boardDto.toEntity();
 
         this.boardJdbcRepository.editBoard(id, board);

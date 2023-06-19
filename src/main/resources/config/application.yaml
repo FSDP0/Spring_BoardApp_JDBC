@@ -7,4 +7,6 @@ spring:
     output:
         ansi:
             enabled: always
-
+    sql:
+        init:
+            mode: always

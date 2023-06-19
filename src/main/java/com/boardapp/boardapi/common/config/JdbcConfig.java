@@ -14,11 +14,14 @@ public class JdbcConfig extends JdbcDataSource {
     @Bean
     DataSource mariadbDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(DATABASE_DRIVER_CLASS_NAME);
-        dataSource.setUrl(DATABASE_URL);
-        dataSource.setUsername(DATABASE_USER_NAME);
-        dataSource.setPassword(DATABASE_USER_PASSWORD);
 
+        // Basic setting for Spring JDBC connection pool
+        dataSource.setDriverClassName(DATABASE_DRIVER_CLASS_NAME); // DataSource Driver Class Name
+        dataSource.setUrl(DATABASE_URL); // DataSource Database URL
+        dataSource.setUsername(DATABASE_USER_NAME); // DataSource Database User Name
+        dataSource.setPassword(DATABASE_USER_PASSWORD); // DataSource Database User Password
+
+        // Amount of connection pool
         return dataSource;
     }
 }

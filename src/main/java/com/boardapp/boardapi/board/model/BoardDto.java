@@ -17,15 +17,16 @@ public class BoardDto {
     private Date modifyDate;
 
     public Board toEntity() {
-        Board board = Board.builder().id(this.num).title(this.title).author(this.writeName)
-                .content(this.contents).build();
+        Board board = Board.builder().id(this.num).title(this.title)
+                .author(this.writeName).content(this.contents).createdDate(this.writeDate)
+                .modifiedDate(this.modifyDate).build();
 
         return board;
     }
 
     @Builder
-    public BoardDto(Long num, String title, String writeName, String contents, Date writeDate,
-            Date modifyDate) {
+    public BoardDto(Long num, String title, String writeName, String contents,
+            Date writeDate, Date modifyDate) {
         this.num = num;
         this.title = title;
         this.writeName = writeName;
