@@ -1,5 +1,6 @@
 package com.boardapp.boardapi.common.util;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,31 @@ public class JdbcConnection {
 
     public JdbcConnection(DataSource dataSource) {
         this.dataSource = dataSource;
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            conn = this.getConnection();
+            stmt = conn.createStatement();
+
+            String sql = "CREATE TABLE board(";
+            sql += "board_id BIGINT(20) NOT NULL AUTOINCREMENT,";
+            sql += "board_title VARCHAR(50) NOT NULL ,";
+            sql += "board_author VARCHAR(30) NOT NULL ,";
+            sql += "board_content VARCHAR(200) NOT NULL ,";
+            sql += "created_date DATETIME NOT NULL";
+            sql += "modified_date DATETIME NOT NULL";
+            sql += "PRIMARY KEY (board_id))";
+
+            stmt.executeUpdate(sql);
+
+            System.out.println("[ INFO ] \\... Message: Created table [board]");
+
+            sql = "CREATE TABLE user(";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Connection getConnection() throws SQLException {

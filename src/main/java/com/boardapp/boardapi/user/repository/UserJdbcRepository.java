@@ -8,8 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.stereotype.Repository;
 import com.boardapp.boardapi.user.entity.User;
 
+@Repository
 public class UserJdbcRepository implements UserRepository {
     private final DataSource dataSource;
 
