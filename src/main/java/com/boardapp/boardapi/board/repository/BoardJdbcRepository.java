@@ -19,7 +19,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public List<Board> findAllBoards() {
-        String sql = "SELECT * FROM board";
+        String sql = "SELECT * FROM boards.board";
 
         Connection conn = null;
         PreparedStatement psmt = null;
@@ -58,7 +58,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public Board findBoardById(Long id) {
-        String sql = "SELECT * FROM board WHERE board_id = ?";
+        String sql = "SELECT * FROM boards.board WHERE board_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -98,7 +98,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void saveBoard(Board board) {
-        String sql = "INSERT INTO board(";
+        String sql = "INSERT INTO boards.board(";
         sql += "board_title, board_author, board_content, created_date";
         sql += ") VALUES (?, ?, ?, ?)";
 
@@ -128,7 +128,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void editBoard(Long id, Board board) {
-        String sql = "UPDATE board SET ";
+        String sql = "UPDATE boards.board SET ";
         sql += "board_title = ? ,";
         sql += "board_author = ? ,";
         sql += "board_content = ? ,";
@@ -164,7 +164,7 @@ public class BoardJdbcRepository implements BoardRepository {
 
     @Override
     public void deleteBoard(Long id) {
-        String sql = "DELETE FROM board WHERE board_id = ?";
+        String sql = "DELETE FROM boards.board WHERE board_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;

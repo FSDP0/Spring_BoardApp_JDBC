@@ -15,7 +15,7 @@ public abstract class JdbcDataSource {
     // protected String DATABASE_USER_PASSWORD;
 
     protected final String DATABASE_DRIVER_CLASS_NAME = "org.mariadb.jdbc.Driver";
-    protected final String DATABASE_URL = "jdbc:mariadb://localhost:3306/board";
+    protected final String DATABASE_URL = "jdbc:mariadb://localhost:3306";
     protected final String DATABASE_USER_NAME = "root";
     protected final String DATABASE_USER_PASSWORD = "123456";
 }

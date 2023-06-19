@@ -1,11 +1,9 @@
 package com.boardapp.boardapi.common.util;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.sql.DataSource;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 
 public class JdbcConnection {
 
@@ -15,41 +13,58 @@ public class JdbcConnection {
         this.dataSource = dataSource;
     }
 
-    public Connection getConnection() throws SQLException {
-        return DataSourceUtils.getConnection(dataSource);
-    }
-
-    public void close(Connection conn) throws SQLException {
-        DataSourceUtils.releaseConnection(conn, dataSource);
-    }
-
-    public void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        }
+    public void JdbcTableCreate(String sql) {
+        Connection conn = null;
+        Statement stmt = null;
 
         try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        }
+            conn = this.dataSource.getConnection();
+            stmt = conn.createStatement();
 
-        try {
-            if (conn != null) {
-                conn.close();
-            }
+            stmt.executeUpdate(sql);
+
+            System.out.println("[ INFO ] \\... Message: Process Complete");
+            System.out.println("[ INFO ] \\... Message: Create Table Success");
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
         }
     }
+    // public Connection getConnection() throws SQLException {
+    // return DataSourceUtils.getConnection(dataSource);
+    // }
+
+    // public void close(Connection conn) throws SQLException {
+    // DataSourceUtils.releaseConnection(conn, dataSource);
+    // }
+
+    // public void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+    // try {
+    // if (rs != null) {
+    // rs.close();
+    // }
+    // } catch (SQLException e) {
+    // System.out.println("[ ERROR ] \\... Message: Error Occured !");
+    // System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+    // }
+
+    // try {
+    // if (pstmt != null) {
+    // pstmt.close();
+    // }
+    // } catch (SQLException e) {
+    // System.out.println("[ ERROR ] \\... Message: Error Occured !");
+    // System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+    // }
+
+    // try {
+    // if (conn != null) {
+    // conn.close();
+    // }
+    // } catch (SQLException e) {
+    // System.out.println("[ ERROR ] \\... Message: Error Occured !");
+    // System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+    // }
+    // }
 }
 

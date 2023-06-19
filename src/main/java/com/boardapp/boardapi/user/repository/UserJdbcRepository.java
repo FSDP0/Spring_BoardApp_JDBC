@@ -20,7 +20,7 @@ public class UserJdbcRepository implements UserRepository {
 
     @Override
     public List<User> findAllUsers() {
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM users.user";
 
         Connection conn = null;
         PreparedStatement psmt = null;
@@ -56,7 +56,7 @@ public class UserJdbcRepository implements UserRepository {
 
     @Override
     public User findUserById(String id) {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+        String sql = "SELECT * FROM users.user WHERE user_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -91,7 +91,7 @@ public class UserJdbcRepository implements UserRepository {
 
     @Override
     public void saveUser(User user) {
-        String sql = "INSERT INTO user(";
+        String sql = "INSERT INTO users.user(";
         sql += "user_id, user_name, user_password, created_date";
         sql += ") VALUES (?, ?, ? ,?)";
 
@@ -118,7 +118,7 @@ public class UserJdbcRepository implements UserRepository {
 
     @Override
     public void editUser(String id, User user) {
-        String sql = "UPDATE user SET ";
+        String sql = "UPDATE users.user SET ";
         sql += "user_name = ? ,";
         sql += "user_password = ? ,";
         sql += "modified_date = ? ";
@@ -151,7 +151,7 @@ public class UserJdbcRepository implements UserRepository {
 
     @Override
     public void deleteUser(String id) {
-        String sql = "DELETE FROM user WHERE user_id = ?";
+        String sql = "DELETE FROM users.user WHERE user_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
