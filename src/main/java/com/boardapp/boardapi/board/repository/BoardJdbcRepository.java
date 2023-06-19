@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -37,7 +38,8 @@ public class BoardJdbcRepository implements BoardRepository {
 
             while (rs.next()) {
                 Board board = Board.builder().id(rs.getLong("board_id"))
-                        .title(rs.getString("board_title")).author(rs.getString("board_author"))
+                        .title(rs.getString("board_title"))
+                        .author(rs.getString("board_author"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
 
@@ -78,7 +80,8 @@ public class BoardJdbcRepository implements BoardRepository {
 
             if (rs.next()) {
                 board = Board.builder().id(rs.getLong("board_id"))
-                        .title(rs.getString("board_title")).author(rs.getString("board_author"))
+                        .title(rs.getString("board_title"))
+                        .author(rs.getString("board_author"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
 
@@ -115,7 +118,7 @@ public class BoardJdbcRepository implements BoardRepository {
             pstmt.setString(1, board.getBoardTitle());
             pstmt.setString(2, board.getBoardAuthor());
             pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, (Date) board.getCreatedDate());
+            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -151,7 +154,7 @@ public class BoardJdbcRepository implements BoardRepository {
             pstmt.setString(1, board.getBoardTitle());
             pstmt.setString(2, board.getBoardAuthor());
             pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, (Date) board.getModifiedDate());
+            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
             pstmt.setLong(5, id);
 
             int resultSize = pstmt.executeUpdate();

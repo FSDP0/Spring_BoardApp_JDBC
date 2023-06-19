@@ -1,14 +1,13 @@
 package com.boardapp.boardapi.user.repository;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+
 import org.springframework.stereotype.Repository;
+
 import com.boardapp.boardapi.user.entity.User;
 
 @Repository
@@ -36,9 +35,11 @@ public class UserJdbcRepository implements UserRepository {
 
             while (rs.next()) {
                 User user = User.builder().id(rs.getString("user_id"))
-                        .name(rs.getString("user_nme")).password(rs.getString("user_password"))
-                        .createdDate(rs.getDate("created_date"))
-                        .modifiedDate(rs.getDate("modified_date")).build();
+                        .name(rs.getString("user_nme"))
+                        .password(rs.getString("user_password"))
+                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                        .modifiedDate(rs.getTimestamp("modified_date").toLocalDateTime())
+                        .build();
 
                 userList.add(user);
             }
@@ -76,7 +77,12 @@ public class UserJdbcRepository implements UserRepository {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                user = User.builder().build();
+                user = User.builder().id(rs.getString("user_id"))
+                        .name(rs.getString("user_name"))
+                        .password(rs.getString("user_password"))
+                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
+                        .modifiedDate(rs.getTimestamp("modified_date").toLocalDateTime())
+                        .build();
             }
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
@@ -110,7 +116,7 @@ public class UserJdbcRepository implements UserRepository {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getUserName());
             pstmt.setString(3, user.getUserPassword());
-            pstmt.setDate(4, (Date) user.getCreatedDate());
+            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -144,7 +150,7 @@ public class UserJdbcRepository implements UserRepository {
 
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getUserPassword());
-            pstmt.setDate(3, user.getModifiedDate());
+            pstmt.setDate(3, Date.valueOf(LocalDateTime.now().toString()));
             pstmt.setString(4, id);
 
             int resultSize = pstmt.executeUpdate();

@@ -26,8 +26,10 @@ public class UserService {
         List<UserDto> userDtoList = new ArrayList<UserDto>();
 
         for (User user : userList) {
-            UserDto userDto = UserDto.builder().id(user.getUserId()).name(user.getUserName())
-                    .password(user.getUserPassword()).createDate(user.getCreatedDate())
+            UserDto userDto = UserDto.builder().id(user.getUserId())
+                    .name(user.getUserName()).password(user.getUserPassword())
+                    .phoneNumber(user.getUserPhoneNumber())
+                    .createDate(user.getCreatedDate())
                     .modifiedDate(user.getModifiedDate()).build();
 
             userDtoList.add(userDto);
@@ -44,8 +46,9 @@ public class UserService {
         }
 
         UserDto userDto = UserDto.builder().id(user.getUserId()).name(user.getUserName())
-                .password(user.getUserPassword()).createDate(user.getCreatedDate())
-                .modifiedDate(user.getModifiedDate()).build();
+                .password(user.getUserPassword()).phoneNumber(user.getUserPhoneNumber())
+                .createDate(user.getCreatedDate()).modifiedDate(user.getModifiedDate())
+                .build();
 
         return userDto;
     }
