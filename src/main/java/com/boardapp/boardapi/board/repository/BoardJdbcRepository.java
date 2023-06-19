@@ -38,6 +38,7 @@ public class BoardJdbcRepository implements BoardRepository {
                 Board board = Board.builder().id(rs.getLong("board_id"))
                         .title(rs.getString("board_title"))
                         .author(rs.getString("board_author"))
+                        .content(rs.getString("board_content"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
 
@@ -78,6 +79,7 @@ public class BoardJdbcRepository implements BoardRepository {
                 board = Board.builder().id(rs.getLong("board_id"))
                         .title(rs.getString("board_title"))
                         .author(rs.getString("board_author"))
+                        .content(rs.getString("board_content"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
 
