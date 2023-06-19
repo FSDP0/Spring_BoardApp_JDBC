@@ -6,11 +6,9 @@ import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class UserDto {
     private String id;
     private String name;

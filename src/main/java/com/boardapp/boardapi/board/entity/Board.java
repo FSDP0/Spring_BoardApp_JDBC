@@ -3,10 +3,8 @@ package com.boardapp.boardapi.board.entity;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 public class Board {
     private Long boardId;
 

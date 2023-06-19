@@ -4,11 +4,9 @@ import com.boardapp.boardapi.user.entity.UserAddress;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class UserAddressDto {
     private String id;
     private String address;
