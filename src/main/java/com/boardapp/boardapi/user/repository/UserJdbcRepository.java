@@ -37,24 +37,18 @@ public class UserJdbcRepository implements UserRepository {
                 User user = User.builder().id(rs.getString("user_id"))
                         .name(rs.getString("user_nme"))
                         .password(rs.getString("user_password"))
-                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
-                        .modifiedDate(rs.getTimestamp("modified_date").toLocalDateTime())
-                        .build();
+                        .createdDate(rs.getDate("created_date"))
+                        .modifiedDate(rs.getDate("modified_date")).build();
 
                 userList.add(user);
             }
+
+            psmt.close();
+            rs.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                psmt.close();
-                rs.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
 
         return userList;
@@ -80,22 +74,16 @@ public class UserJdbcRepository implements UserRepository {
                 user = User.builder().id(rs.getString("user_id"))
                         .name(rs.getString("user_name"))
                         .password(rs.getString("user_password"))
-                        .createdDate(rs.getTimestamp("created_date").toLocalDateTime())
-                        .modifiedDate(rs.getTimestamp("modified_date").toLocalDateTime())
-                        .build();
+                        .createdDate(rs.getDate("created_date"))
+                        .modifiedDate(rs.getDate("modified_date")).build();
             }
+
+            pstmt.close();
+            rs.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                rs.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
 
         return user;
@@ -116,20 +104,15 @@ public class UserJdbcRepository implements UserRepository {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getUserName());
             pstmt.setString(3, user.getUserPassword());
-            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
+            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
 
             pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
 
@@ -150,24 +133,19 @@ public class UserJdbcRepository implements UserRepository {
 
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getUserPassword());
-            pstmt.setDate(3, Date.valueOf(LocalDateTime.now().toString()));
+            pstmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             pstmt.setString(4, id);
 
             int resultSize = pstmt.executeUpdate();
 
             System.out.println("[ INFO ] \\... Message: Process Complete");
             System.out.println("[ INFO ] \\... Message: " + resultSize);
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
 
@@ -185,18 +163,12 @@ public class UserJdbcRepository implements UserRepository {
             pstmt.setString(1, id);
 
             pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
-
 }

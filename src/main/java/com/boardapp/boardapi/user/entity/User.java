@@ -1,6 +1,6 @@
 package com.boardapp.boardapi.user.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,12 +11,12 @@ public class User {
     private String userPassword;
     private String userPhoneNumber;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private Date createdDate;
+    private Date modifiedDate;
 
     @Builder
     public User(String id, String name, String password, String phoneNumber,
-            LocalDateTime createdDate, LocalDateTime modifiedDate) {
+            Date createdDate, Date modifiedDate) {
         this.userId = id;
         this.userName = name;
         this.userPassword = password;

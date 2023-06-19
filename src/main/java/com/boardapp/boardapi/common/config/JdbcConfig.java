@@ -21,7 +21,6 @@ public class JdbcConfig extends JdbcDataSource {
         dataSource.setUsername(DATABASE_USER_NAME); // DataSource Database User Name
         dataSource.setPassword(DATABASE_USER_PASSWORD); // DataSource Database User Password
 
-        // Amount of connection pool
         return dataSource;
     }
 }

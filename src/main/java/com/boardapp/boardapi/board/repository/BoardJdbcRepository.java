@@ -1,10 +1,6 @@
 package com.boardapp.boardapi.board.repository;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +29,9 @@ public class BoardJdbcRepository implements BoardRepository {
 
         try {
             conn = this.dataSource.getConnection();
+
             psmt = conn.prepareStatement(sql);
+
             rs = psmt.executeQuery();
 
             while (rs.next()) {
@@ -45,18 +43,13 @@ public class BoardJdbcRepository implements BoardRepository {
 
                 boardList.add(board);
             }
+
+            psmt.close();
+            rs.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                psmt.close();
-                rs.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
 
         return boardList;
@@ -75,7 +68,10 @@ public class BoardJdbcRepository implements BoardRepository {
         try {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
+
+            // Setting SQL parameter
             pstmt.setLong(1, id);
+
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -86,18 +82,13 @@ public class BoardJdbcRepository implements BoardRepository {
                         .modifiedDate(rs.getDate("modified_date")).build();
 
             }
+
+            pstmt.close();
+            rs.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                rs.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
 
         return board;
@@ -115,23 +106,21 @@ public class BoardJdbcRepository implements BoardRepository {
         try {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
+
+            // Setting SQL parameter
             pstmt.setString(1, board.getBoardTitle());
             pstmt.setString(2, board.getBoardAuthor());
             pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
+
+            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
 
             pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
 
@@ -151,27 +140,23 @@ public class BoardJdbcRepository implements BoardRepository {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
 
+            // Setting SQL parameter
             pstmt.setString(1, board.getBoardTitle());
             pstmt.setString(2, board.getBoardAuthor());
             pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, Date.valueOf(LocalDateTime.now().toString()));
+            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             pstmt.setLong(5, id);
 
             int resultSize = pstmt.executeUpdate();
 
             System.out.println("[ INFO ] \\... Message: Process Complete");
             System.out.println("[ INFO ] \\... Message: " + resultSize);
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
 
@@ -186,20 +171,16 @@ public class BoardJdbcRepository implements BoardRepository {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
 
+            // Setting SQL parameter
             pstmt.setLong(1, id);
 
             pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
             System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-        } finally {
-            try {
-                pstmt.close();
-                conn.close();
-            } catch (Exception e) {
-                System.out.println("[ ERROR ] \\... Message: Error Occured !");
-                System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
-            }
         }
     }
 }

@@ -18,8 +18,7 @@ public class BoardDto {
 
     public Board toEntity() {
         Board board = Board.builder().id(this.num).title(this.title)
-                .author(this.writeName).content(this.contents).createdDate(this.writeDate)
-                .modifiedDate(this.modifyDate).build();
+                .author(this.writeName).content(this.contents).build();
 
         return board;
     }
