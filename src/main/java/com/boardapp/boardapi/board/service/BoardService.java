@@ -28,7 +28,7 @@ public class BoardService {
         List<BoardDto> boardDtoList = new ArrayList<BoardDto>();
 
         for (Board board : boardList) {
-            BoardDto boardDto = BoardDto.builder().id(board.getBoardId())
+            BoardDto boardDto = BoardDto.builder().num(board.getBoardId())
                     .title(board.getBoardTitle()).writeName(board.getBoardAuthor())
                     .contents(board.getBoardContent()).writeDate(board.getCreatedDate())
                     .modifyDate(board.getModifiedDate()).build();
@@ -39,19 +39,31 @@ public class BoardService {
         return boardDtoList;
     }
 
-    public void getBoardById() {
+    public BoardDto getBoardById(Long id) {
+        Board board = this.boardJdbcRepository.findBoardById(id);
 
+        if (board == null) {
+            return null;
+        }
+
+        BoardDto boardDto = BoardDto.builder().num(board.getBoardId()).title(board.getBoardTitle())
+                .writeName(board.getBoardAuthor()).contents(board.getBoardContent())
+                .writeDate(board.getCreatedDate()).modifyDate(board.getModifiedDate()).build();
+
+        return boardDto;
     }
 
-    public void saveBoard() {
-
+    public void saveBoard(BoardDto boardDto) {
+        this.boardJdbcRepository.saveBoard(boardDto.toEntity());
     }
 
-    public void modifyBoard() {
+    public void modifyBoard(Long id, BoardDto boardDto) {
+        Board board = boardDto.toEntity();
 
+        this.boardJdbcRepository.editBoard(id, board);
     }
 
-    public void removeBoard() {
-
+    public void removeBoard(Long id) {
+        this.boardJdbcRepository.deleteBoard(id);
     }
 }

@@ -2,8 +2,10 @@ package com.boardapp.boardapi.user.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class User {
     private String userId;
     private String userName;

@@ -1,5 +1,7 @@
 package com.boardapp.boardapi.common.config;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class JdbcDataSource {
     public final String DATABASE_DRIVER_CLASS_NAME = "org.mariadb.jdbc.Driver";
     // public final String DATABASE_URL = "jdbc:mariadb://${IP.DATABASE_IP}:3306/board";
