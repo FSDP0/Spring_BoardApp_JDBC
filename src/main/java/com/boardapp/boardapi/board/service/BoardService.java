@@ -5,21 +5,21 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.boardapp.boardapi.board.entity.Board;
 import com.boardapp.boardapi.board.model.BoardDto;
-import com.boardapp.boardapi.board.repository.BoardJdbcRepository;
+import com.boardapp.boardapi.board.repository.BoardRepository;
 
 @Service
 public class BoardService {
 
     // Constructor dependency injection
-    private final BoardJdbcRepository boardJdbcRepository;
+    private final BoardRepository boardRepository;
 
-    public BoardService(BoardJdbcRepository boardJdbcRepository) {
-        this.boardJdbcRepository = boardJdbcRepository;
+    public BoardService(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
     }
     //
 
     public List<BoardDto> getBoards() {
-        List<Board> boardList = this.boardJdbcRepository.findAllBoards();
+        List<Board> boardList = this.boardRepository.findAllBoards();
 
         if (boardList.isEmpty()) {
             return null;
@@ -41,7 +41,7 @@ public class BoardService {
     }
 
     public BoardDto getBoardById(Long id) {
-        Board board = this.boardJdbcRepository.findBoardById(id);
+        Board board = this.boardRepository.findBoardById(id);
 
         if (board == null) {
             return null;
@@ -57,17 +57,17 @@ public class BoardService {
     }
 
     public void saveBoard(BoardDto boardDto) {
-        this.boardJdbcRepository.saveBoard(boardDto.toEntity());
+        this.boardRepository.saveBoard(boardDto.toEntity());
     }
 
     public void modifyBoard(Long id, BoardDto boardDto) {
         // Convert DTO Model to Entity
         Board board = boardDto.toEntity();
 
-        this.boardJdbcRepository.editBoard(id, board);
+        this.boardRepository.editBoard(id, board);
     }
 
     public void removeBoard(Long id) {
-        this.boardJdbcRepository.deleteBoard(id);
+        this.boardRepository.deleteBoard(id);
     }
 }
