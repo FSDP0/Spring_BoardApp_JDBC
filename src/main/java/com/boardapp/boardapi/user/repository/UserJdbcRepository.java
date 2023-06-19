@@ -1,35 +1,31 @@
-package com.boardapp.boardapi.board.repository;
+package com.boardapp.boardapi.user.repository;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.stereotype.Repository;
-import com.boardapp.boardapi.board.entity.Board;
+import com.boardapp.boardapi.user.entity.User;
 
-@Repository
-public class BoardJdbcRepository implements BoardRepository {
+public class UserJdbcRepository implements UserRepository {
     private final DataSource dataSource;
 
-    public BoardJdbcRepository(DataSource dataSource) {
+    public UserJdbcRepository(DataSource dataSource) {
         this.dataSource = dataSource;
-
     }
 
     @Override
-    public List<Board> findAllBoards() {
-        String sql = "SELECT * FROM board";
+    public List<User> findAllUsers() {
+        String sql = "SELECT * FROM user";
 
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
 
-        List<Board> boardList = new ArrayList<Board>();
+        List<User> userList = new ArrayList<User>();
 
         try {
             conn = this.dataSource.getConnection();
@@ -37,12 +33,12 @@ public class BoardJdbcRepository implements BoardRepository {
             rs = psmt.executeQuery();
 
             while (rs.next()) {
-                Board board = Board.builder().id(rs.getLong("board_id"))
-                        .title(rs.getString("board_title")).author(rs.getString("board_author"))
+                User user = User.builder().id(rs.getString("user_id"))
+                        .name(rs.getString("user_nme")).password(rs.getString("user_password"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
 
-                boardList.add(board);
+                userList.add(user);
             }
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
@@ -58,31 +54,27 @@ public class BoardJdbcRepository implements BoardRepository {
             }
         }
 
-        return boardList;
+        return userList;
     }
 
     @Override
-    public Board findBoardById(Long id) {
-        String sql = "SELECT * FROM board WHERE board_id = ?";
+    public User findUserById(String id) {
+        String sql = "SELECT * FROM user WHERE user_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        Board board = null;
+        User user = null;
 
         try {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, id);
+            pstmt.setString(1, id);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                board = Board.builder().id(rs.getLong("board_id"))
-                        .title(rs.getString("board_title")).author(rs.getString("board_author"))
-                        .createdDate(rs.getDate("created_date"))
-                        .modifiedDate(rs.getDate("modified_date")).build();
-
+                user = User.builder().build();
             }
         } catch (SQLException e) {
             System.out.println("[ ERROR ] \\... Message: Error Occured !");
@@ -98,14 +90,14 @@ public class BoardJdbcRepository implements BoardRepository {
             }
         }
 
-        return board;
+        return user;
     }
 
     @Override
-    public void saveBoard(Board board) {
-        String sql = "INSERT INTO board(";
-        sql += "board_title, board_author, board_content, created_date";
-        sql += ") VALUES (?, ?, ?, ?)";
+    public void saveUser(User user) {
+        String sql = "INSERT INTO user(";
+        sql += "user_id, user_name, user_password, created_date";
+        sql += ") VALUES (?, ?, ? ,?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -113,10 +105,10 @@ public class BoardJdbcRepository implements BoardRepository {
         try {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, board.getBoardTitle());
-            pstmt.setString(2, board.getBoardAuthor());
-            pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, (Date) board.getCreatedDate());
+            pstmt.setString(1, user.getUserId());
+            pstmt.setString(2, user.getUserName());
+            pstmt.setString(3, user.getUserPassword());
+            pstmt.setDate(4, (Date) user.getCreatedDate());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -134,13 +126,12 @@ public class BoardJdbcRepository implements BoardRepository {
     }
 
     @Override
-    public void editBoard(Long id, Board board) {
-        String sql = "UPDATE board SET ";
-        sql += "board_title = ? ,";
-        sql += "board_author = ? ,";
-        sql += "board_content = ? ,";
+    public void editUser(String id, User user) {
+        String sql = "UPDATE user SET ";
+        sql += "user_name = ? ,";
+        sql += "user_password = ? ,";
         sql += "modified_date = ? ";
-        sql += "WHERE board_id = ?";
+        sql += "WHERE user_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -149,11 +140,10 @@ public class BoardJdbcRepository implements BoardRepository {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, board.getBoardTitle());
-            pstmt.setString(2, board.getBoardAuthor());
-            pstmt.setString(3, board.getBoardContent());
-            pstmt.setDate(4, (Date) board.getModifiedDate());
-            pstmt.setLong(5, id);
+            pstmt.setString(1, user.getUserName());
+            pstmt.setString(2, user.getUserPassword());
+            pstmt.setDate(3, user.getModifiedDate());
+            pstmt.setString(4, id);
 
             int resultSize = pstmt.executeUpdate();
 
@@ -174,8 +164,8 @@ public class BoardJdbcRepository implements BoardRepository {
     }
 
     @Override
-    public void deleteBoard(Long id) {
-        String sql = "DELETE FROM board WHERE board_id = ?";
+    public void deleteUser(String id) {
+        String sql = "DELETE FROM user WHERE user_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -184,7 +174,7 @@ public class BoardJdbcRepository implements BoardRepository {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setLong(1, id);
+            pstmt.setString(1, id);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -200,4 +190,5 @@ public class BoardJdbcRepository implements BoardRepository {
             }
         }
     }
+
 }

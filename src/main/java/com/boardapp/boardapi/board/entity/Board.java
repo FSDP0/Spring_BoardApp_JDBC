@@ -9,9 +9,11 @@ import lombok.ToString;
 @ToString
 public class Board {
     private Long boardId;
+
     private String boardTitle;
     private String boardAuthor;
     private String boardContent;
+
     private Date createdDate;
     private Date modifiedDate;
 
