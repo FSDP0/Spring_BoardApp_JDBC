@@ -13,3 +13,4 @@ spring:
             mode: always
             # .sql file (schema) location
             schema-locations: classpath:schema-mariadb.sql
+            data-locations: classpath:data-mariadb.sql
