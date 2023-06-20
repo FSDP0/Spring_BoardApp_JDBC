@@ -34,10 +34,11 @@ public class UserRepository {
 
             while (rs.next()) {
                 User user = User.builder().id(rs.getString("user_id"))
-                        .name(rs.getString("user_nme"))
+                        .name(rs.getString("user_name"))
                         .password(rs.getString("user_password"))
-                        .createdDate(rs.getDate("created_date"))
-                        .modifiedDate(rs.getDate("modified_date")).build();
+                        .phoneNumber(rs.getString("user_tel"))
+                        .createdDate(rs.getTimestamp("created_date"))
+                        .modifiedDate(rs.getTimestamp("modified_date")).build();
 
                 userList.add(user);
             }
@@ -72,8 +73,9 @@ public class UserRepository {
                 user = User.builder().id(rs.getString("user_id"))
                         .name(rs.getString("user_name"))
                         .password(rs.getString("user_password"))
-                        .createdDate(rs.getDate("created_date"))
-                        .modifiedDate(rs.getDate("modified_date")).build();
+                        .phoneNumber(rs.getString("user_tel"))
+                        .createdDate(rs.getTimestamp("created_date"))
+                        .modifiedDate(rs.getTimestamp("modified_date")).build();
             }
 
             pstmt.close();
