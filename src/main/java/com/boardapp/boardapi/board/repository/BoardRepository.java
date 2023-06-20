@@ -36,7 +36,7 @@ public class BoardRepository {
             while (rs.next()) {
                 Board board = Board.builder().id(rs.getLong("board_id"))
                         .title(rs.getString("board_title"))
-                        .author(rs.getString("board_author"))
+                        .author(rs.getString("user_id"))
                         .content(rs.getString("board_content"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
@@ -76,7 +76,7 @@ public class BoardRepository {
             if (rs.next()) {
                 board = Board.builder().id(rs.getLong("board_id"))
                         .title(rs.getString("board_title"))
-                        .author(rs.getString("board_author"))
+                        .author(rs.getString("user_id"))
                         .content(rs.getString("board_content"))
                         .createdDate(rs.getDate("created_date"))
                         .modifiedDate(rs.getDate("modified_date")).build();
@@ -96,7 +96,7 @@ public class BoardRepository {
 
     public void saveBoard(Board board) {
         String sql = "INSERT INTO boards.board(";
-        sql += "board_title, board_author, board_content, created_date";
+        sql += "board_title, user_id, board_content, created_date";
         sql += ") VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
@@ -126,7 +126,7 @@ public class BoardRepository {
     public void editBoard(Long id, Board board) {
         String sql = "UPDATE boards.board SET ";
         sql += "board_title = ? ,";
-        sql += "board_author = ? ,";
+        sql += "user_id = ? ,";
         sql += "board_content = ? ,";
         sql += "modified_date = ? ";
         sql += "WHERE board_id = ?";
