@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-
 @Configuration
 // Enabled Transaction
 @EnableTransactionManagement
