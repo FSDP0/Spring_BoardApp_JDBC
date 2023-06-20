@@ -80,4 +80,61 @@ public class UserAddressRepository {
 
         return userAddress;
     }
+
+    public void saveUserAddress(UserAddress userAddress) {
+        String sql = "INSERT INTO users.user_address(";
+        sql += "user_id, user_address, address_zipcode";
+        sql += ") VALUES (?, ?, ?)";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = this.dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, userAddress.getUserId());
+            pstmt.setString(2, userAddress.getUserAddress());
+            pstmt.setString(3, userAddress.getAddressZipCode());
+
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("[ ERROR ] \\... Message: Error Occured !");
+            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+        }
+    }
+
+    public void editUserAddress(String id, UserAddress userAddress) {
+        String sql = "UPDATE users.user SET ";
+        sql += "user_address = ?";
+        sql += "address_zipcode = ?";
+        sql += "WHERE user_id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = this.dataSource.getConnection();
+
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, userAddress.getUserAddress());
+            pstmt.setString(2, userAddress.getAddressZipCode());
+            pstmt.setString(3, id);
+
+            int resultSize = pstmt.executeUpdate();
+
+            System.out.println("[ INFO ] \\... Message: Process Complete");
+            System.out.println("[ INFO ] \\... Message: " + resultSize);
+
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("[ ERROR ] \\... Message: Error Occured !");
+            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+        }
+    }
 }

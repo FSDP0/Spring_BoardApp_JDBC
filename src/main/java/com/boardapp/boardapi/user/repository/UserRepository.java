@@ -89,8 +89,8 @@ public class UserRepository {
 
     public void saveUser(User user) {
         String sql = "INSERT INTO users.user(";
-        sql += "user_id, user_name, user_password, created_date";
-        sql += ") VALUES (?, ?, ? ,?)";
+        sql += "user_id, user_name, user_password, user_tel, created_date";
+        sql += ") VALUES (?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -101,7 +101,8 @@ public class UserRepository {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, user.getUserName());
             pstmt.setString(3, user.getUserPassword());
-            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(4, user.getUserPhoneNumber());
+            pstmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
             pstmt.executeUpdate();
 
@@ -117,6 +118,7 @@ public class UserRepository {
         String sql = "UPDATE users.user SET ";
         sql += "user_name = ? ,";
         sql += "user_password = ? ,";
+        sql += "user_tel = ? ,";
         sql += "modified_date = ? ";
         sql += "WHERE user_id = ?";
 
@@ -129,8 +131,9 @@ public class UserRepository {
 
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getUserPassword());
-            pstmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            pstmt.setString(4, id);
+            pstmt.setString(3, user.getUserPhoneNumber());
+            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(5, id);
 
             int resultSize = pstmt.executeUpdate();
 

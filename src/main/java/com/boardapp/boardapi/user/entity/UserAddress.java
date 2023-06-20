@@ -7,12 +7,12 @@ import lombok.Getter;
 public class UserAddress {
     private String userId;
     private String userAddress;
-    private String userZipCode;
+    private String addressZipCode;
 
     @Builder
     public UserAddress(String id, String address, String zipCode) {
         this.userId = id;
         this.userAddress = address;
-        this.userZipCode = zipCode;
+        this.addressZipCode = zipCode;
     }
 }

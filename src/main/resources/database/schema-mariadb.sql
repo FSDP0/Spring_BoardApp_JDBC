@@ -3,6 +3,11 @@ CREATE DATABASE IF NOT EXISTS boards;
 
 CREATE DATABASE IF NOT EXISTS users;
 
+DROP TABLE IF EXISTS boards.board;
+ALTER TABLE IF EXISTS users.user_address DROP CONSTRAINT fk_id;
+DROP TABLE IF EXISTS users.user_address;
+DROP TABLE IF EXISTS users.user;
+
 -- Create board table on boards database
 CREATE TABLE IF NOT EXISTS boards.board (
     board_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -21,7 +26,6 @@ CREATE TABLE IF NOT EXISTS users.user (
     user_name VARCHAR(50) NOT NULL,
     user_password VARCHAR(50) NOT NULL,
     user_tel VARCHAR(50) NOT NULL,
-    user_address VARCHAR(100) NOT NULL,
     created_date DATETIME NOT NULL,
     modified_date DATETIME NULL,
     PRIMARY KEY (id, user_id),
@@ -34,5 +38,6 @@ CREATE TABLE IF NOT EXISTS users.user_address (
     user_address VARCHAR(100) NOT NULL,
     address_zipcode VARCHAR(30) NOT NULL,
     PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id) REFERENCES user (user_id)
+    CONSTRAINT fk_id FOREIGN KEY(user_id) REFERENCES users.user(user_id)
+    ON DELETE CASCADE
 );
