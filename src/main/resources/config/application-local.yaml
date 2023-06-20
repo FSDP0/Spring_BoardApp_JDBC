@@ -10,6 +10,8 @@ server:
 
 db:
     driver-class-name: org.mariadb.jdbc.Driver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mariadb://localhost:3306
+    # url: jdbc:mysql://localhost:3307
     username: root
     password: 123456

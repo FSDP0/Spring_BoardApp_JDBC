@@ -4,7 +4,13 @@ CREATE DATABASE IF NOT EXISTS boards;
 CREATE DATABASE IF NOT EXISTS users;
 
 DROP TABLE IF EXISTS boards.board;
+
+-- MariaDB ALTER TABLE Query
 ALTER TABLE IF EXISTS users.user_address DROP CONSTRAINT fk_id;
+
+-- MySQL ALTER TABLE Query
+-- ALTER TABLE users.user_address DROP CONSTRAINT fk_id;
+
 DROP TABLE IF EXISTS users.user_address;
 DROP TABLE IF EXISTS users.user;
 
@@ -40,4 +46,5 @@ CREATE TABLE IF NOT EXISTS users.user_address (
     PRIMARY KEY(user_id),
     CONSTRAINT fk_id FOREIGN KEY(user_id) REFERENCES users.user(user_id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE
 );

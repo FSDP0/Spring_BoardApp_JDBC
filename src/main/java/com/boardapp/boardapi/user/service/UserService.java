@@ -3,8 +3,8 @@ package com.boardapp.boardapi.user.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.boardapp.boardapi.user.entity.User;
-import com.boardapp.boardapi.user.model.UserDto;
+import com.boardapp.boardapi.user.entity.UserInfo;
+import com.boardapp.boardapi.user.model.UserInfoDto;
 import com.boardapp.boardapi.user.repository.UserRepository;
 
 @Service
@@ -16,54 +16,58 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserDto> getUsers() {
-        List<User> userList = this.userRepository.findAllUsers();
+    public List<UserInfoDto> getAllUserInfo() {
+        List<UserInfo> userInfoList = this.userRepository.findAllUserInfo();
 
-        if (userList.isEmpty()) {
+        if (userInfoList.isEmpty()) {
             return null;
         }
 
-        List<UserDto> userDtoList = new ArrayList<UserDto>();
+        List<UserInfoDto> userInfoDtoList = new ArrayList<UserInfoDto>();
 
-        for (User user : userList) {
-            UserDto userDto = UserDto.builder().id(user.getUserId())
-                    .name(user.getUserName()).password(user.getUserPassword())
-                    .phoneNumber(user.getUserPhoneNumber())
-                    .createDate(user.getCreatedDate())
-                    .modifiedDate(user.getModifiedDate()).build();
+        for (UserInfo userInfo : userInfoList) {
+            UserInfoDto userInfoDto = UserInfoDto.builder().id(userInfo.getUserId())
+                    .name(userInfo.getUserName()).password(userInfo.getUserPassword())
+                    .phoneNumber(userInfo.getUserPhoneNumber())
+                    .address(userInfo.getUserAddress())
+                    .zipCode(userInfo.getAddressZipCode())
+                    .createdDate(userInfo.getCreatedDate())
+                    .modifiedDate(userInfo.getModifiedDate()).build();
 
-            userDtoList.add(userDto);
+            userInfoDtoList.add(userInfoDto);
         }
 
-        return userDtoList;
+        return userInfoDtoList;
     }
 
-    public UserDto getUserById(String id) {
-        User user = this.userRepository.findUserById(id);
+    public UserInfoDto getUserInfoById(String id) {
+        UserInfo userInfo = this.userRepository.findUserInfoById(id);
 
-        if (user == null) {
+        if (userInfo == null) {
             return null;
         }
 
-        UserDto userDto = UserDto.builder().id(user.getUserId()).name(user.getUserName())
-                .password(user.getUserPassword()).phoneNumber(user.getUserPhoneNumber())
-                .createDate(user.getCreatedDate()).modifiedDate(user.getModifiedDate())
-                .build();
+        UserInfoDto userInfoDto = UserInfoDto.builder().id(userInfo.getUserId())
+                .name(userInfo.getUserName()).password(userInfo.getUserPassword())
+                .phoneNumber(userInfo.getUserPhoneNumber())
+                .address(userInfo.getUserAddress()).zipCode(userInfo.getAddressZipCode())
+                .createdDate(userInfo.getCreatedDate())
+                .modifiedDate(userInfo.getModifiedDate()).build();
 
-        return userDto;
+        return userInfoDto;
     }
 
-    public void saveUser(UserDto userDto) {
-        this.userRepository.saveUser(userDto.toEntity());
+    public void saveUserInfo(UserInfoDto userInfoDto) {
+        this.userRepository.saveUser(userInfoDto.toUserInfoEntity());
     }
 
-    public void modifyUser(String id, UserDto userDto) {
-        User user = userDto.toEntity();
+    public void modifyUserInfo(String id, UserInfoDto userInfoDto) {
+        UserInfo userInfo = userInfoDto.toUserInfoEntity();
 
-        this.userRepository.editUser(id, user);
+        this.userRepository.editUser(id, userInfo);
     }
 
-    public void removeUser(String id) {
+    public void removeUserInfo(String id) {
         this.userRepository.deleteUser(id);
     }
 }
