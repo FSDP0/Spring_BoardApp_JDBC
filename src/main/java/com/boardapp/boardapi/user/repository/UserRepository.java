@@ -7,7 +7,10 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
 import com.boardapp.boardapi.user.entity.UserInfo;
+import com.boardapp.boardapi.user.sql.UserSql;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
 public class UserRepository {
     private final DataSource dataSource;
@@ -17,10 +20,7 @@ public class UserRepository {
     }
 
     public List<UserInfo> findAllUserInfo() {
-        String sql = "SELECT A.*, B.user_address, B.address_zipcode ";
-        sql += "FROM users.user A ";
-        sql += "LEFT JOIN users.user_address B ";
-        sql += "ON A.user_id = B.user_id ";
+        String sql = UserSql.SELECT_ALL;
 
         Connection conn = null;
         PreparedStatement psmt = null;
@@ -50,19 +50,14 @@ public class UserRepository {
             rs.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error occured : ", e);
         }
 
         return userInfoList;
     }
 
     public UserInfo findUserInfoById(String id) {
-        String sql = "SELECT A.*, B.user_address, B.address_zipcode ";
-        sql += "FROM users.user A ";
-        sql += "LEFT JOIN users.user_address AS B ";
-        sql += "ON A.user_id = B.user_id ";
-        sql += "WHERE A.user_id = ?";
+        String sql = UserSql.SELECT_BY_USER_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -93,21 +88,15 @@ public class UserRepository {
             rs.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error occured : ", e);
         }
 
         return userInfo;
     }
 
     public void saveUser(UserInfo userInfo) {
-        String userSql = "INSERT INTO users.user(";
-        userSql += "user_id, user_name, user_password, user_tel, created_date";
-        userSql += ") VALUES (?, ?, ?, ?, ?)";
-
-        String userAddressSql = "INSERT INTO users.user_address(";
-        userAddressSql += "user_id, user_address, address_zipcode";
-        userAddressSql += ") VALUES (?, ?, ?)";
+        String userSql = UserSql.INSERT_USER;
+        String userAddressSql = UserSql.INSERT_ADDRESS;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -115,6 +104,9 @@ public class UserRepository {
         try {
             conn = this.dataSource.getConnection();
             pstmt = conn.prepareStatement(userSql);
+
+            // Set Transaction
+            conn.setAutoCommit(false);
 
             pstmt.setString(1, userInfo.getUserId());
             pstmt.setString(2, userInfo.getUserName());
@@ -132,27 +124,19 @@ public class UserRepository {
 
             pstmt.executeUpdate();
 
-            pstmt.close();
-            conn.close();
+            // Transaction Commit
+            conn.commit();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error occured : ", e);
         }
+
+
     }
 
     public void editUser(String id, UserInfo userInfo) {
-        String userSql = "UPDATE users.user SET ";
-        userSql += "user_name = ? ,";
-        userSql += "user_password = ? ,";
-        userSql += "user_tel = ? ,";
-        userSql += "modified_date = ? ";
-        userSql += "WHERE user_id = ?";
+        String userSql = UserSql.UPDATE_USER_BY_USER_ID;
 
-        String userAddressSql = "UPDATE users.user_address SET ";
-        userAddressSql += "user_address = ? ,";
-        userAddressSql += "address_zipcode = ? ";
-        userAddressSql += "WHERE user_id = ?";
-
+        String userAddressSql = UserSql.UPDATE_ADDRESS_BY_USER_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -169,8 +153,8 @@ public class UserRepository {
 
             int resultSize = pstmt.executeUpdate();
 
-            System.out.println("[ INFO ] \\... Message: Process Complete");
-            System.out.println("[ INFO ] \\... Message: " + resultSize);
+            log.info("Successful process : Update user table");
+            log.info("Result size : " + resultSize);
 
             pstmt = conn.prepareStatement(userAddressSql);
 
@@ -180,19 +164,18 @@ public class UserRepository {
 
             resultSize = pstmt.executeUpdate();
 
-            System.out.println("[ INFO ] \\... Message: Process Complete");
-            System.out.println("[ INFO ] \\... Message: " + resultSize);
+            log.info("Successful process : Update address table");
+            log.info("Result size : " + resultSize);
 
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error occured : ", e);
         }
     }
 
     public void deleteUser(String id) {
-        String sql = "DELETE FROM users.user WHERE user_id = ?";
+        String sql = UserSql.DELETE_BY_USER_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -208,8 +191,7 @@ public class UserRepository {
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error occured : ", e);
         }
     }
 }

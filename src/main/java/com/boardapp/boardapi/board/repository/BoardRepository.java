@@ -7,7 +7,10 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
 import com.boardapp.boardapi.board.entity.Board;
+import com.boardapp.boardapi.board.sql.BoardSql;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
 public class BoardRepository {
     private final DataSource dataSource;
@@ -18,7 +21,7 @@ public class BoardRepository {
     }
 
     public List<Board> findAllBoards() {
-        String sql = "SELECT * FROM boards.board";
+        String sql = BoardSql.SELECT_ALL;
 
         Connection conn = null;
         PreparedStatement psmt = null;
@@ -48,15 +51,14 @@ public class BoardRepository {
             rs.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("Error", e);
         }
 
         return boardList;
     }
 
     public Board findBoardById(Long id) {
-        String sql = "SELECT * FROM boards.board WHERE board_id = ?";
+        String sql = BoardSql.SELECT_BY_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -87,17 +89,14 @@ public class BoardRepository {
             rs.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("[ ERROR ] \\... Message: Error Occured !");
-            System.out.println("[ ERROR ] \\... Message: " + e.getMessage());
+            log.error("error", e);
         }
 
         return board;
     }
 
     public void saveBoard(Board board) {
-        String sql = "INSERT INTO boards.board(";
-        sql += "board_title, user_id, board_content, created_date";
-        sql += ") VALUES (?, ?, ?, ?)";
+        String sql = BoardSql.INSERT_BOARD;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -124,12 +123,7 @@ public class BoardRepository {
     }
 
     public void editBoard(Long id, Board board) {
-        String sql = "UPDATE boards.board SET ";
-        sql += "board_title = ? ,";
-        sql += "user_id = ? ,";
-        sql += "board_content = ? ,";
-        sql += "modified_date = ? ";
-        sql += "WHERE board_id = ?";
+        String sql = BoardSql.UPDATE_BY_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -159,7 +153,7 @@ public class BoardRepository {
     }
 
     public void deleteBoard(Long id) {
-        String sql = "DELETE FROM boards.board WHERE board_id = ?";
+        String sql = BoardSql.DELETE_BY_ID;
 
         Connection conn = null;
         PreparedStatement pstmt = null;

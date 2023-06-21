@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.boardapp.boardapi.user.entity.UserInfo;
 import com.boardapp.boardapi.user.model.UserInfoDto;
 import com.boardapp.boardapi.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class UserService {
